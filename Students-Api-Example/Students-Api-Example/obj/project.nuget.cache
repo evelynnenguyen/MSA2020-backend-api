@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ieUrqbvy5bvwQoUJkBsZBxQ4KKP2WNxVlQ21RtlcYdvy+eYJYujwbJRhgbOow2/Bw5BnGcYZyu1kVsU9Alrgrw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\darko\\source\\repos\\Students-Api-Example\\Students-Api-Example\\Students-Api-Example.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\darko\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}
