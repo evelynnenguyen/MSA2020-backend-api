@@ -5,6 +5,7 @@ Students will need to submit a link to GitHub repository. All the screenshots an
     - Create another table named "Address" with attributes: StudentId, Street Number, Street, Suburb, City, Postcode and Country. The Student table would have one-to-many relationship with this table. Please assign appropriate datatype for each of the attributes.
     - Show SQL database through the Query editor (screenshots) for both tables with rows of example instances
   - API manipulate the created Azure Database using Code-First migration:
+    - Create basic CRUD requests for Student and Address
     - Create an API that add new address for a student using his/her StudentId.
     - Create an API that change the address of a student using his/her StudentId.
     - Screenshot of Swagger UI for each of the CRUD requests with header, body, and successful response status
