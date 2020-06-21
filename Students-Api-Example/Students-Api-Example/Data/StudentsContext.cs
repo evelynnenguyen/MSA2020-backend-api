@@ -21,10 +21,5 @@ namespace Students_Api_Example.Data
         }
 
         public DbSet<Student> Students { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-8A6G6BT\\SQLEXPRESS;Initial Catalog=StudentsData;Integrated Security=True");
-        }
     }
 }
