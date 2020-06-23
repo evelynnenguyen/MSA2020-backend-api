@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Students_Api_Example</RootNamespace>
+    <UserSecretsId>035f1e14-802d-4598-b9f0-1e8695753f33</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

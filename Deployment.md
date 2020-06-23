@@ -46,3 +46,7 @@ Now go back to your Visual Studio, right click your API project and choose "Publ
 ![Existing Publish](./img/existing-publish.png)
 
 And then select `Finish`
+
+In the Publish window, check to ensure that all configurations are correct. Then select `Publish` to publish your code to the existing Azure App Service.
+
+![Publish Code](./img/publish-code.png)

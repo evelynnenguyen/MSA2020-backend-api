@@ -49,8 +49,8 @@ namespace Students_Api_Example
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My first API V1");
-                c.RoutePrefix = string.Empty; // launch swagger from root
-            });
+				c.RoutePrefix = string.Empty; // launch swagger from root
+			});
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
