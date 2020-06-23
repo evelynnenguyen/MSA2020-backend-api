@@ -29,6 +29,20 @@ Then we need to fill out the following fields:
 - **Plan**: leave as default
 - **Sku and size**: Here I choose Free F1 option.
 
-Then choose `Review and Create`
+Then choose `Review and Create`, check for your configurations, and select `Create`.
+
+Azure will then deploy your empty app to Azure server.
+
+After we have configured the web service on Azure, we are now move to deploy our .NET Core Web API code to Azure.
+
+Now go back to your Visual Studio, right click your API project and choose "Publish"
 
 ![Choose Publish](./img/choose-publish.png)
+
+![Where to Publish](./img/where-publish.png)
+
+![Windows Publish](./img/windows-publish.png)
+
+![Existing Publish](./img/existing-publish.png)
+
+And then select `Finish`
