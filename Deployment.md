@@ -6,11 +6,33 @@ In this tutorial, I will show how to deploy our finished .NET CORE Web API to Az
 2. .NET CORE 3.1
 3. Azure Student Subscription
 
+## Configure CORS
+``` csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {      
+       app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()
+            );
+    }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddCors();
+    }
+```
+
+Your two methods then will be look like:
+
+![Configure CORS](./img/configure-cors.PNG)
+
 ## Deployment
 In order to deploy our .NET Core Application to Azure, we need an Azure account with subscription. If you are a student, you can register a student subscription with Microsoft Azure.
 Once you are ready with your Azure account, login into [Azure](http://portal.azure.com/) and search for "App Services"
 
-![Search App Services](./img/search-app-services.PNG)
+![Configure CORS](./img/configure-cors.PNG)
 
 From "App Services", we choose the "Add" to create a new App Service.
 
