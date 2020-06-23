@@ -9,6 +9,9 @@ In this tutorial, I will show how to deploy our finished .NET CORE Web API to Az
 ## Deployment
 In order to deploy our .NET Core Application to Azure, we need an Azure account with subscription. If you are a student, you can register a student subscription with Microsoft Azure.
 Once you are ready with your Azure account, login into [Azure](http://portal.azure.com/) and search for "App Services"
+
 ![Choose Publish](./img/search-app-services.PNG)
 
+From
+ 
 ![Choose Publish](./img/choose-publish.png)
