@@ -59,16 +59,16 @@ After we have configured the web service on Azure, we are now move to deploy our
 
 Now go back to your Visual Studio, right click your API project and choose "Publish"
 
-![Choose Publish](./img/choose-publish.png)
+![Choose Publish](./img/choose-publish.PNG)
 
-![Where to Publish](./img/where-publish.png)
+![Where to Publish](./img/where-publish.PNG)
 
-![Windows Publish](./img/windows-publish.png)
+![Windows Publish](./img/windows-publish.PNG)
 
-![Existing Publish](./img/existing-publish.png)
+![Existing Publish](./img/existing-publish.PNG)
 
 And then select `Finish`
 
 In the Publish window, check to ensure that all configurations are correct. Then select `Publish` to publish your code to the existing Azure App Service.
 
-![Publish Code](./img/publish-code.png)
+![Publish Code](./img/publish-code.PNG)
