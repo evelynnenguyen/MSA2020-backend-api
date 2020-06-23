@@ -294,8 +294,6 @@ E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.csprojAssemblyReference.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\staticwebassets\Students-Api-Example.StaticWebAssets.Manifest.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\staticwebassets\Students-Api-Example.StaticWebAssets.xml
-E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.MvcApplicationPartsAssemblyInfo.cs
-E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.MvcApplicationPartsAssemblyInfo.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.AssemblyInfoInputs.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.AssemblyInfo.cs
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.RazorTargetAssemblyInfo.cache
@@ -303,7 +301,9 @@ E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.dll
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.pdb
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.json
-E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.csproj.CoreCompileInputs.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.genruntimeconfig.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.local.json
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.msa2020-phase1-api - Web Deploy.json
+E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.csproj.CoreCompileInputs.cache
+E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.MvcApplicationPartsAssemblyInfo.cs
+E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Debug\netcoreapp3.1\Students-Api-Example.MvcApplicationPartsAssemblyInfo.cache
