@@ -34,59 +34,66 @@ The model seems very simple but that is because we will update it later on in th
 # 3. Azure Database
 Before we can build our model we first need a server to host our database. There are mutiple ways and technologies we could use to create a database. For the purpose of simplicity we will use Azure SQL databases to host our data. For this step you will need a Azure for Student Subscription and an account to go with it. Visit [https://azure.microsoft.com/en-us/free/students/](https://azure.microsoft.com/en-us/free/students/) to redeem your subscription. This will give you some free credits to use which is needed to host our API and Databases.
 ### 3.1 Creating the database
-Navigate to https://portal.azure.com on your browser and click “Create a resource” and search for “SQL Database”. You should get the following screen.
-
-[Create Resource](./img/Azure%20%281%29.png)
-
-Make sure the subscription is Azure for Students, 
+Navigate to https://portal.azure.com on your browser and click “Create a resource” and search for “SQL Database”.
+![Create Resource](./img/Azure%20%281%29.png)
+>Make sure the subscription is Azure for Students, 
 - Click 'Create New', to create a new resource group. (The resource group is a collection of resources that are used for a particular application or group of applications) 
+![Create Resource Group](./img/Azure%20%282%29.png)
 - Give your database a name. 
-- Click 'Create new' which will prompt you to create a admin account for this database and the region that it will hosted on. 
-- Select location as Australia East (doesn’t really matter but keep it close because lower latency)
+![db name](./img/Azure%20%284%29.png)
+- Click 'Create new' which will prompt you to create a admin account for this database and the select a region that it will hosted on.
+![SQL admin](./img/Azure%20%285%29.png)
+- You should have something similiar to this.
+![settings](./img/Azure%20%286%29.png)
 - Click 'Configure database' and navigate to the basic option (the default one is overkill and is quite expensive for our purposes) and Apply the changes
-- 
-When you are done, you should have something vaguly like this:
-{image}
-Once satified with the setting you can click review and create and the deployment should be underway. This might take some time.
-{image}
-### 3.2 Firewall settings
-When deploy you can click on "Go to resource" and 'Set server firewall' 
-{image}
-Change the seeting so that 'Allow Azure service' is Yes and add the rule 0.0.0.0 and 255.255.255.255. This is giving all IP addresses access. Ideally we would want to restrict access in a production environment but for simplicity I will allow all connections.
-{image}
+![config database](./img/Azure%20%287%29.png)
+![Create Resource](./img/Azure%20%288%29.png)
+> We want to change the database configuration as the default one is expensive and overkill for our purposes (Cost $641 for me to host the default monthly)
+![Create Resource](./img/Azure%20%289%29.png)
+> Way cheaper cost only $8 a month, be sure to delete the database after the phase 1 results are given out so that it doesn't eat into your credits.
 
+Once satified with the setting you can click review and create and the deployment should be underway. This might take some time.
+![Create Resource](./img/Azure%20%2810%29.png)
+### 3.2 Firewall settings
+When the database has finished being deployed you can click on "Go to resource" and 'Set server firewall' 
+![Create Resource](./img/Azure%20%2811%29.png)
+![Create Resource](./img/Azure%20%2812%29.png)
+Change the seeting so that 'Allow Azure service' is Yes and add the rule 0.0.0.0 and 255.255.255.255. This is giving all IP addresses access. Ideally we would want to restrict access in a production environment but for simplicity I will allow all connections.
+![Create Resource](./img/Azure%20%2813%29.png)
 On the left hand panel find the label Connection String and copy the string somewhere.
-{image}
+![Create Resource](./img/Azure%20%2814%29.png)
+Copy the connection string under ADO.NET
+![Create Resource](./img/Azure%20%2815%29.png)
 
 # 4. Time to Code – Model and context creations
 ### 4.1 Creating a new web API project
 Open Visual Studio 2019 -> Create a new Project -> ASP.NET Core Web Application
-{image}
+![Create Resource](.img/Create%20%281%29.png)
 Give your project a name
-{image}
+![Create Resource](.img/Create%20%282%29.png)
 Select API -> Click Create
-{}
-We have create an empty API project which will will create our core logic of our API. At this point you can Click 'IIS Express' to run the project. The newly created API project comes with a default API WeatherForecastController.cs, It should show you the follow data, (I have JSON formatter so it will look different)
-{image}
+![Create Resource](.img/Create%20%283%29.png)
+We have create an empty API project which will will create our core logic of our API. At this point you can Click 'IIS Express' to run the project. The newly created API project comes with a default API WeatherForecastController.cs, It should show you the following data
+![Create Resource](.img/Create%20%284%29.png)
+![Create Resource](.img/Create%20%285%29.png)
 Now that we know the project runs we can delete the WeatherForecast.cs and the WeatherForecastController.cs by right clicking and selecting delete in the 'solution explorer' on the right hand side.
-{image}
+![Create Resource](.img/Create%20%287%29.png)
 ### 4.2 Adding Nuget Packages
 We also need to install some libraries/extensions to the project to help us create the API.
 At the top of the screen go to "Tools -> Nuget Package Manager -> Manage Nuget Package for Solution".
-{image}
+![Create Resource](.img/Create%20%288%29.png)
 Click browse and search for Microsoft.EntityFrameworkCore, add Microsoft.EntityFrameworkCore and install it. 
-{image}
+![Create Resource](.img/Create%20%289%29.png)
 Do the same with:
 - Microsoft.EntityFrameworkCore.Tools (Migration)
 - Microsoft.EntityFrameworkCore.SqlServer (database communication).
 
 ### 4.3 Adding the Model
 Add a folder called "Models" to the project by right clicking the project
-{image}
+![Create Resource](.img/Create%20%2810%29.png)
 Right click the Models folder and select add new item
-{image}
-Give your class file a name. This class will be our model for our student data.
-{image}
+![Create Resource](.img/Create%20%2811%29.png)
+> Give your class file a name. This class will be our model for our student data.
 Under the Student.cs class add the follow code. 
 
 ```C#
@@ -100,10 +107,12 @@ Under the Student.cs class add the follow code.
         public string emailAddress { get; set; }
     }
 ```
+![Create Resource](.img/Create%20%2812%29.png)
 You will see that Visual Studio complaining about an error. We can fix this by hovering over or clicking the lightbulb icon to show potential fixes. In our case we want to import the following.
 - ```using System.ComponentModel.DataAnnotations;```
 - ```using System.ComponentModel.DataAnnotations.Schema;```
-
+![Create Resource](.img/Create%20%2813%29.png)
+![Create Resource](.img/Create%20%2814%29.png)
 This imports the libraries that we added in previously. 
 > [Key] denotes the primary Id that is used to identify the row of data. This  annotation isn’t strictly needed if your variable has Id in the name.
 > [DatabaseGenerated(DatabaseGeneratedOption.Identity)] annotation tells the database that we want this variable to be autogenerated and is the primary identifier. More infomration can be found [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt)
@@ -131,6 +140,8 @@ public class StudentContext : DbContext
         }
     }
 ```
+![Create Resource](.img/Create%20%2815%29.png)
+![Create Resource](.img/Create%20%2816%29.png)
 # 5. Time to Code – Migrations
 Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier. 
 ```JSON
@@ -139,15 +150,18 @@ Now that we have set up our model and the context we can begin to update the dat
     "schoolSIMSConnection": "CONNECTIONSTRING"
   }
 ```
-Make sure you replace {your_password} with your admin password in the connection string you copied
+![Create Resource](.img/Create%20%2817%29.png)
+> Make sure you replace {your_password} with your admin password in the connection string you copied
 
-At the bottom of the screen click package console manager 
-{image}
-Run the following command ```Add-Migration InitialCreate```.  Running this will automatically create files needed to update the database. A folder called `Migration` will be create which will have a record or all migrations we have made. This is basically git but for our model. We haven’t updated the remote database yet but running the command `Update-Database` will create the model on our database.
+At the bottom of the screen click package console manager, run the following command ```Add-Migration InitialCreate```.  Running this will automatically create files needed to update the database. A folder called `Migration` will be create which will have a record or all migrations we have made. This is basically git but for our model. 
+![Create Resource](.img/Create%20%2818%29.png)
+![Create Resource](.img/Create%20%2819%29.png)
+We haven’t updated the remote database yet but running the command `Update-Database` will create the model on our database.
 
 Go back to Azure and find your database and select the `Query Editor` on the left hand panel, log in and expand the Tables folder. 
-{image}
+![Create Resource](.img/Create%20%2820%29.png)
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
+
 # 5. Time to Code – API Controllers
 > The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
@@ -159,11 +173,11 @@ Open Startup.cs and add the follow code to in ConfigureServices, replacing the s
 >What we are doing is letting our program know that we want to use this context we have created
 
 Right click the `Controllers` folder and select Add->New Scaffold Item-> Select API Controller with actions, using Entity Framework. Here select your model and context you create previously.
-{image}
->It should generate the API for you. This is very basic api but it will give us the some boiler plate code to work with.
-
-You can run then program again but go to one of the api/Students. It will return a empty list. But we know that it has successfully accessed our database.
-{image}
+![Create Resource](.img/Create%20%2821%29.png)
+![Create Resource](.img/Create%20%2822%29.png)
+![Create Resource](.img/Create%20%2823%29.png)
+![Create Resource](.img/Create%20%2824%29.png)
+>It should generate the API for you. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students. 
 
 This isn’t very visual pleasing to work with so we will add some UI in the next step.
 
@@ -192,20 +206,20 @@ app.UseSwaggerUI(c =>
 In `Properties/launchsetting.json` edit the launchUrl to be `“”`
 
 Run the program and you should now be greeted with a nice Swagger UI
-{image}
+![Create Resource](.img/Create%20%2825%29.png)
 ### 5.2 Testing our API
 Time to see if our API is working.
 
 Click on `POST api/Students` and click `Try it out`
-{image}
+![Create Resource](.img/Create%20%2828%29.png)
 >POST is an HTTP method used to send data to a server to create a new record
 
 Edit the string so that it has a first and last name and email are filled out. It doesn't matter what StudentId is when we post because it will be ignored and autogenerated for us.
-{image}
+![Create Resource](.img/Create%20%2826%29.png)
 Click `Execute` if the response is 201 then we have successfully added some data to our database. See [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) for common HTTP response codes
-
+![Create Resource](.img/Create%20%2827%29.png)
 We can check if our data was added in our database by this executing our `GET api/students` if it returns this then we know our API is fully functional.
-{image}
+![Create Resource](.img/Create%20%2829%29.png)
 
 # 6. Time to Code – Updating our model
 If your model needs to change we can simply add it to our existing model. I will add a timestamp and phone and middle name. I will also make it a so that the first and lastname are required fields and firstname has a max length allowable. (Click [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt) to see more data annotations you can apply to the model)
@@ -226,7 +240,7 @@ public class Student
         public DateTime timeCreated { get; set; }
     }
 ```
-
+![Create Resource](.img/Create%20%2830%29.png)
 Go to package manger console and run ```Add-Migration UpdatedStudentModel``` and ```Update-Database```.
 
 If you make a mistake with the model you can call roll back the migration by calling Update-Database with the name of the previous migration. Take a look [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=vs#remove-a-migration)  and [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli) for more Migration functionality
