@@ -1,4 +1,5 @@
 
+
 # API and Databases
 API forms the layer between our front-end and database. This is where all the heavy logic is processed when a request is sent from the front-end.
 
@@ -34,7 +35,8 @@ The model seems very simple but that is because we will update it later on in th
 Before we can build our model we first need a server to host our database. There are mutiple ways and technologies we could use to create a database. For the purpose of simplicity we will use Azure SQL databases to host our data. For this step you will need a Azure for Student Subscription and an account to go with it. Visit [https://azure.microsoft.com/en-us/free/students/](https://azure.microsoft.com/en-us/free/students/) to redeem your subscription. This will give you some free credits to use which is needed to host our API and Databases.
 ### 3.1 Creating the database
 Navigate to https://portal.azure.com on your browser and click “Create a resource” and search for “SQL Database”. You should get the following screen.
-{image}
+
+[Create Resource](./img/Azure%20%281%29.png)
 
 Make sure the subscription is Azure for Students, 
 - Click 'Create New', to create a new resource group. (The resource group is a collection of resources that are used for a particular application or group of applications) 
@@ -252,3 +254,4 @@ Student will need to finish 1 compulsory and 1 optional module and submit the sc
   - Optional: Choose 1 out of the following two modules:
     - [Provision an Azure SQL database to store application data](https://docs.microsoft.com/en-us/learn/modules/provision-azure-sql-db/?fbclid=IwAR0k7zN0rgLgISyDoSZP7l3Mm1nEUjUY9nJJS0TnVEPjdn78xzWThfJesLk)
     - [Develop and configure an ASP.NET application that queries an Azure SQL database](https://docs.microsoft.com/en-us/learn/modules/develop-app-that-queries-azure-sql/?fbclid=IwAR2j2JDWm8dfkpOV8T-QYu6M1VHw6cFgvRBYF03K_ZXUerX2HJ28O2OUWBo)
+
