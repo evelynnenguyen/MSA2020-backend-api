@@ -8,4 +8,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAHkTsbP2lNUSBDdOFt8sMjgAAAAACAAAAAAAQZgAAAAEAACAAAADp4xD50c2ZQcUP5fbXWOURoREZSdr3++6teR81xDkFnwAAAAAOgAAAAAIAACAAAABQTCSFw46w2P2a1I6+2avASLU8O3qdQgxQtnK2HKyYMIAAAABU4GS91GgZOlxR83Y8WKVvsvCWbowKoNNRBgc7KY1/av6t2dDi4hzk0+MUIwDF7mam/xxjcVL848Fe7re7s3J82mbE1g+mprM/un4lUXksMbOjDwqlgA0/WCM3WT5dJD0f+oGYMN+fNYwZ3D0svYW0uJWnNlgcQjbXqO2WCbPn4kAAAABeDhluRgDVMVFITVJnFrRW1sXXE9ARP588MFm+KsCEvvRuvZV5Ag24fzaOSqgsSLH/ZjTqF32vMjq/FqgpTvrA</EncryptedPassword>
   </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="StudentDB">
+      <Value>Data Source=tcp:msa2020-phase1.database.windows.net,1433%3bInitial Catalog=MSA2020Phase1%3bUser Id=msa2020-phase1%40msa2020-phase1%3bPassword=Testing123</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
 </Project>
