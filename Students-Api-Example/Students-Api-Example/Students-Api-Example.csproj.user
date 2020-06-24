@@ -10,6 +10,6 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>Students_Api_Example.Data.StudentsContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
-    <NameOfLastUsedPublishProfile>msa2020-phase1-api - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>msa-phase1 - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

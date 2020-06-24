@@ -154,3 +154,4 @@ E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\obj\Release\netcoreapp3.1\Students-Api-Example.genruntimeconfig.cache
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\bin\Release\netcoreapp3.1\Properties\serviceDependencies.local.json
 E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\bin\Release\netcoreapp3.1\Properties\serviceDependencies.msa2020-phase1-api - Web Deploy.json
+E:\Nguyen\work\MSA\MSA2020\MSA2020-backend-api\Students-Api-Example\Students-Api-Example\bin\Release\netcoreapp3.1\Properties\serviceDependencies.msa-phase1 - Web Deploy.json
