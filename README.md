@@ -1,3 +1,6 @@
+# Assignments
+The requirements for submission can be found [here.](Assignment.md)
+
 # API and Databases
 
 API forms the layer between our front-end and database. The API handles the logic when a request is recieved by or sent from the front-end.
@@ -233,7 +236,7 @@ public class StudentContext : DbContext
 ![Context](./img/api%20%2816%29.png)
 
 # 5. Time to Code – Migrations
-Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier. 
+Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier.
 ```JSON
 "AllowedHosts": "*",
 "ConnectionStrings": {
@@ -243,12 +246,12 @@ Now that we have set up our model and the context we can begin to update the dat
 ![conn string add](./img/api%20%2817%29.png)
 > Make sure you replace {your_password} with your admin password in the connection string you copied
 
-At the bottom of the screen click package console manager, run the following command ```Add-Migration InitialCreate```.  Running this will automatically create files needed to update the database. A folder called `Migration` will be create which will have a record or all migrations we have made. This is basically git but for our model. 
+At the bottom of the screen click package console manager, run the following command ```Add-Migration InitialCreate```.  Running this will automatically create files needed to update the database. A folder called `Migration` will be create which will have a record or all migrations we have made. This is basically git but for our model.
 ![add-migrations](./img/api%20%2818%29.png)
 ![add-migrations](./img/api%20%2819%29.png)
 We haven’t updated the remote database yet but running the command `Update-Database` will create the model on our database.
 
-Go back to Azure and find your database and select the `Query Editor` on the left hand panel, log in and expand the Tables folder. 
+Go back to Azure and find your database and select the `Query Editor` on the left hand panel, log in and expand the Tables folder.
 ![table updated](./img/api%20%2820%29.png)
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
 
@@ -256,7 +259,7 @@ You can see two tables. one is a record of the migrations we have made and the o
 > The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
 Open Startup.cs and add the follow code to in ConfigureServices, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json`
- ```C# 
+ ```C#
 	var connection = Configuration.GetConnectionString("schoolSIMSConnection");
 	services.AddDbContext<StudentContext>(options => options.UseSqlServer(connection));}
 ```
@@ -267,7 +270,7 @@ Right click the `Controllers` folder and select Add->New Scaffold Item-> Select 
 ![Api controller with](./img/api%20%2822%29.png)
 ![model and context](./img/api%20%2823%29.png)
 ![results](./img/api%20%2824%29.png)
->It should generate the API for you. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students. 
+>It should generate the API for you. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students.
 
 This isn’t very visual pleasing to work with so we will add some UI in the next step.
 
@@ -285,7 +288,7 @@ services.AddSwaggerGen(c =>
 Add the following to Configure
 ```C#
 app.UseSwagger();
-// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
 // specifying the Swagger JSON endpoint.
 app.UseSwaggerUI(c =>
 {
@@ -358,4 +361,3 @@ Student will need to finish 1 compulsory and 1 optional module and submit the sc
   - Optional: Choose 1 out of the following two modules:
     - [Provision an Azure SQL database to store application data](https://docs.microsoft.com/en-us/learn/modules/provision-azure-sql-db/?fbclid=IwAR0k7zN0rgLgISyDoSZP7l3Mm1nEUjUY9nJJS0TnVEPjdn78xzWThfJesLk)
     - [Develop and configure an ASP.NET application that queries an Azure SQL database](https://docs.microsoft.com/en-us/learn/modules/develop-app-that-queries-azure-sql/?fbclid=IwAR2j2JDWm8dfkpOV8T-QYu6M1VHw6cFgvRBYF03K_ZXUerX2HJ28O2OUWBo)
-
