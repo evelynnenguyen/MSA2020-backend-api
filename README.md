@@ -1,5 +1,5 @@
 # Table of contents
-1. [Introduction](#api-and-databases)
+1. [API and Databases](#api-and-databases)
 2. [Model](#model)
 3. [Azure Database](#azure-database)
 4. [Time to Code - Model and Context Creation](#model-and-context-creations)
