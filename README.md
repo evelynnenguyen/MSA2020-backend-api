@@ -399,7 +399,7 @@ After we have configured the web service on Azure, we are now move to deploy our
 
 Now go back to your Visual Studio, right click your API project and choose `Publish...`
 
-![Choose Publish](./img/choose-publish.PNG)
+![Choose Publish](./img/choose-publish.png)
 
 Then choose `Azure` as our `Target` to publish
 
