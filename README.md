@@ -1,4 +1,8 @@
-# API and Databases
+# Table of contents
+1. [Introduction](#api-and-databases)
+8. [Assignments](#assignments)
+
+# API and Databases <a name="api-and-databases"></a>
 
 API forms the layer between our front-end and database. The API handles the logic when a request is received by or sent from the front-end.
 
@@ -425,7 +429,7 @@ When it is published successfully, it will automatically open up the site, else 
 
 Hosting APIs on Azure will allow you to call the APIs anytime on any devices. For example, developers use YouTube or Google APIs to build their applications.
 
-# 8. Assignments for API + Database module
+# 8. Assignments for API + Database module <a name="assignments"></a>
 
 ## 8.1 Submission
 Students will need to submit a link to GitHub repository. README.md file will contain the following contents:
