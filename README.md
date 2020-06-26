@@ -1,6 +1,5 @@
-
-
 # API and Databases
+
 API forms the layer between our front-end and database. This is where all the heavy logic is processed when a request is sent from the front-end.
 
 ## 1. before you Start
