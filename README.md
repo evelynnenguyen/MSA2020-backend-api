@@ -3,7 +3,7 @@ The requirements for submission can be found [here.](Assignment.md)
 
 # API and Databases
 
-API forms the layer between our front-end and database. The API handles the logic when a request is recieved by or sent from the front-end.
+API forms the layer between our front-end and database. The API handles the logic when a request is received by or sent from the front-end.
 
 ## 1. before you Start
 Here are the required things to get/install for the project:
@@ -50,6 +50,8 @@ foreach (Employee e in employees) {
 ```
 
 In the above over-simplified demonstration, you may not see the immediate advantage of using the API. However, when the business logic grows larger or our application becomes more complex, the **API allows** us to directly act without the need to write the low-level query code repeatedly.
+
+There is a small documentations on interaction between Database and API [here](DB-API.md). Have a look at it if you are still not sure how they work together.
 
 # 2. Model
 
