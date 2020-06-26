@@ -1,5 +1,11 @@
 # Table of contents
 1. [Introduction](#api-and-databases)
+2. [Model](#model)
+3. [Azure Database](#azure-database)
+4. [Model and Context Creation](#model-and-context-creations)
+5.
+6.
+7.
 8. [Assignments](#assignments)
 
 # API and Databases <a name="api-and-databases"></a>
@@ -54,7 +60,7 @@ In the above over-simplified demonstration, you may not see the immediate advant
 
 There is a small documentations on interaction between Database and API [here](DB-API.md). Have a look at it if you are still not sure how they work together.
 
-# 2. Model
+# 2. Model <a name="model"></a>
 
 Before we even start to write a line of code, we need to think about what we would like to store in our database and what properties we want our API to return (i.e. **the Model**). The model is crucial because the **cost of modifying** an existing database is *very high*. To keep it simple, we will only have one table and one model. Be aware that in the modern system that multiple models can exist that pull data from various databases.
 
@@ -67,7 +73,7 @@ Now we can design the model. Here we will create a database that holds students'
 
 The model seems simple but later we will start updating it to make things more complex and fun.
 
-# 3. Azure Database
+# 3. Azure Database <a name="azure-database"></a>
 Before we can build our model we first need a server to host our database. There are mutiple ways and technologies we could use to create a database. For simplicity we will use Azure SQL databases to host our data. For this step you will need a Azure for Student Subscription and an account to go with it. Visit [https://azure.microsoft.com/en-us/free/students/](https://azure.microsoft.com/en-us/free/students/) to redeem your subscription. This will give you some free credits to host our API and Databases.
 
 ### 3.1 Creating the database
@@ -129,7 +135,7 @@ Copy the **connection string** under ADO.NET.
 
 ![Copy String](./img/Azure%20%2815%29.png)
 
-# 4. Time to Code – Model and context creations
+# 4. Time to Code – Model and context creations <a name="model-and-context-creations"></a>
 ### 4.1 Creating a new web API project
 Open Visual Studio 2019 -> Create a new Project -> ASP.NET Core Web Application
 
@@ -208,7 +214,7 @@ This imports the libraries that we added and installed previously.
 
 We are now done with our basic model!
 
-### 4.3 Adding the DbContext
+### 4.4 Adding the DbContext
 
 **DbContext** is *the way* to incoporate EntityFramework-based data access into the application. In other words, the class that derives or is registered with DbContext is the data access layer of the application.
 
@@ -238,7 +244,7 @@ public class StudentContext : DbContext
 
 ![Context](./img/api%20%2816%29.png)
 
-# 5. Time to Code – Migrations
+# 5. Time to Code – Migrations <a name="migrations"></a>
 Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier.
 ```JSON
 "AllowedHosts": "*",
@@ -258,7 +264,7 @@ Go back to Azure and find your database and select the `Query Editor` on the lef
 ![table updated](./img/api%20%2820%29.png)
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
 
-# 5. Time to Code – API Controllers
+# 6. Time to Code – API Controllers
 > The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
 Open Startup.cs and add the follow code to in ConfigureServices, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json`
@@ -277,8 +283,8 @@ Right click the `Controllers` folder and select Add->New Scaffold Item-> Select 
 
 This isn’t very visual pleasing to work with so we will add some UI in the next step.
 
-# 5. Time to Code – Swagger.
-### 5.1 Setting up Swagger
+# 7. Time to Code – Swagger.
+### 7.1 Setting up Swagger
 Install the nuget package Swashbuckle.AspNetCore
 
 Add the following code to Startup.cs in the ConfigureServices and fix the errors that pop up
@@ -303,7 +309,7 @@ In `Properties/launchsetting.json` edit the launchUrl to be `“”`
 
 Run the program and you should now be greeted with a nice Swagger UI
 ![swagger ui](./img/api%20%2825%29.png)
-### 5.2 Testing our API
+### 7.2 Testing our API
 Time to see if our API is working.
 
 Click on `POST api/Students` and click `Try it out`
@@ -317,7 +323,7 @@ Click `Execute` if the response is 201 then we have successfully added some data
 We can check if our data was added in our database by this executing our `GET api/students` if it returns this then we know our API is fully functional.
 ![get](./img/api%20%2829%29.png)
 
-# 6. Time to Code – Updating our model
+# 8. Time to Code – Updating our model
 If your model needs to change we can simply add it to our existing model. I will add a timestamp and phone and middle name. I will also make it a so that the first and lastname are required fields and firstname has a max length allowable. (Click [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt) to see more data annotations you can apply to the model)
 ```C#
 public class Student
@@ -341,15 +347,15 @@ Go to package manger console and run ```Add-Migration UpdatedStudentModel``` and
 
 If you make a mistake with the model you can call roll back the migration by calling Update-Database with the name of the previous migration. Take a look [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=vs#remove-a-migration)  and [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli) for more Migration functionality
 
-# 7. Deploy .NET Core Web API to Azure
+# 9. Deploy .NET Core Web API to Azure
 Now we will deploy our finished .NET CORE Web API to Azure.
 
-## 7.1 Development Environment
+## 9.1 Development Environment
 1. Visual Studio Community 2019, version 16.6.2
 2. .NET CORE 3.1
 3. Azure Student Subscription
 
-## 7.2 Configure CORS
+## 9.2 Configure CORS
 Firstly, we will configure the application to enable CORS policy so that we can host it on Azure with Swagger UI.
 
 In Visual Studio, go to your `Startup.cs` file and update the Configure and ConfigureServices methods as below:
@@ -374,7 +380,7 @@ Your two methods then will be look like:
 
 ![Configure CORS](./img/configure-cors.PNG)
 
-## 7.3 Deployment
+## 9.3 Deployment
 In order to deploy our .NET Core Application to Azure, we need an Azure account with subscription. If you are a student, you can register a student subscription with Microsoft Azure.
 Once you are ready with your Azure account, login into [Azure](http://portal.azure.com/) and search for "App Services"
 
@@ -429,14 +435,14 @@ When it is published successfully, it will automatically open up the site, else 
 
 Hosting APIs on Azure will allow you to call the APIs anytime on any devices. For example, developers use YouTube or Google APIs to build their applications.
 
-# 8. Assignments for API + Database module <a name="assignments"></a>
+# 10. Assignments for API + Database module <a name="assignments"></a>
 
-## 8.1 Submission
+## 10.1 Submission
 Students will need to submit a link to GitHub repository. README.md file will contain the following contents:
 - All the screenshots and explanations/notes
 - URLs of your APIs that have been hosted on Azure
 
-## 8.2 Project Guidelines
+## 10.2 Project Guidelines
 - Create a code-first API server with Azure SQL Database
   - Database:
     - Create another table named "Address" with attributes: StudentId, Street Number, Street, Suburb, City, Postcode and Country. The Student table would have one-to-many relationship with this table. Please assign appropriate datatype for each of the attributes.
