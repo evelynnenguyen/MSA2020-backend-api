@@ -2,11 +2,13 @@
 1. [Introduction](#api-and-databases)
 2. [Model](#model)
 3. [Azure Database](#azure-database)
-4. [Model and Context Creation](#model-and-context-creations)
-5.
-6.
-7.
-8. [Assignments](#assignments)
+4. [Time to Code - Model and Context Creation](#model-and-context-creations)
+5. [Time to Code - Migrations](#migrations)
+6. [Time to Code - API Controllers](#api-controllers)
+7. [Time to Code - Swagger](#swagger)
+8. [Time to Code - Updating our model](#update-model)
+9. [Deploy .NET Core Web API to Azure](#deployment)
+10. [Assignments](#assignments)
 
 # API and Databases <a name="api-and-databases"></a>
 
@@ -264,7 +266,7 @@ Go back to Azure and find your database and select the `Query Editor` on the lef
 ![table updated](./img/api%20%2820%29.png)
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
 
-# 6. Time to Code – API Controllers
+# 6. Time to Code – API Controllers <a name="api-controllers"></a>
 > The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
 Open Startup.cs and add the follow code to in ConfigureServices, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json`
@@ -283,7 +285,7 @@ Right click the `Controllers` folder and select Add->New Scaffold Item-> Select 
 
 This isn’t very visual pleasing to work with so we will add some UI in the next step.
 
-# 7. Time to Code – Swagger.
+# 7. Time to Code – Swagger. <a name="swagger"></a>
 ### 7.1 Setting up Swagger
 Install the nuget package Swashbuckle.AspNetCore
 
@@ -323,7 +325,7 @@ Click `Execute` if the response is 201 then we have successfully added some data
 We can check if our data was added in our database by this executing our `GET api/students` if it returns this then we know our API is fully functional.
 ![get](./img/api%20%2829%29.png)
 
-# 8. Time to Code – Updating our model
+# 8. Time to Code – Updating our model <a name="update-model"></a>
 If your model needs to change we can simply add it to our existing model. I will add a timestamp and phone and middle name. I will also make it a so that the first and lastname are required fields and firstname has a max length allowable. (Click [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt) to see more data annotations you can apply to the model)
 ```C#
 public class Student
@@ -347,7 +349,7 @@ Go to package manger console and run ```Add-Migration UpdatedStudentModel``` and
 
 If you make a mistake with the model you can call roll back the migration by calling Update-Database with the name of the previous migration. Take a look [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=vs#remove-a-migration)  and [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli) for more Migration functionality
 
-# 9. Deploy .NET Core Web API to Azure
+# 9. Deploy .NET Core Web API to Azure <a name="deployment"></a>
 Now we will deploy our finished .NET CORE Web API to Azure.
 
 ## 9.1 Development Environment
@@ -453,7 +455,7 @@ Students will need to submit a link to GitHub repository. README.md file will co
     - Create an API that change the address of a student using his/her StudentId.
     - Screenshot of Swagger UI for each of the CRUD requests with header, body, and successful response status
 - MS Learn
-Student will need to finish 1 compulsory and 1 optional module and submit the screenshots:
+Student will need to finish 1 compulsory and 1 optional modules and submit the screenshots of completed modules:
   - Compulsory: [Create a web API with ASP.NET Core](https://docs.microsoft.com/en-us/learn/modules/build-web-api-net-core/?fbclid=IwAR0YijdrKtl3UUkQLVTUw3i6RTJbkxLte7RbZhD2aBPYvZva-Pp-_WRYbJM)
   - Optional: Choose 1 out of the following two modules:
     - [Provision an Azure SQL database to store application data](https://docs.microsoft.com/en-us/learn/modules/provision-azure-sql-db/?fbclid=IwAR0k7zN0rgLgISyDoSZP7l3Mm1nEUjUY9nJJS0TnVEPjdn78xzWThfJesLk)
