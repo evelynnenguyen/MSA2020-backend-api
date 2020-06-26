@@ -1,100 +1,175 @@
-
-
 # API and Databases
-API forms the layer between our front-end and database. This is where all the heavy logic is processed when a request is sent from the front-end.
+
+API forms the layer between our front-end and database. The API handles the logic when a request is recieved by or sent from the front-end.
 
 ## 1. before you Start
+Here are the required things to get/install for the project:
 - Visual Studio 2019
 - .NET Core 3.1
 - Azure Account with active subscription. See Azure for Student folder for instruction
 - Git
+
 ### 1.1 Learning Outcomes
-- Creating a database hosted on Azure
-- Using Code First programming to design our system (If you are interested you can see NZMSA 2019 for the database first approach)
-	- Add tables remotely through code without SQL
-	- Update database to reflect model in code withour SQL
+- Creating a database hosted on Azure.
+- Using **Code First** programming to design our system (If you are interested you can see [NZMSA 2019](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20%26%20API) for the database first approach)
+	- **Add** tables remotely through code without SQL
+	- **Update** database to reflect model in code withour SQL
 - Creating an API that performs CRUD operations.
-- Understanding the interactions with API and Databases
+- Understanding the interactions with API and Databases.
 
 ### 1.2 Why API and Database
-So what is an API and why do we need it? Why does it exist separate from the database. How is it helpful to have an API?
+
+API (Application Programming Interface) defines the interactions between the client (front-end) and the server (backend/database). From [WikiPedia](https://en.wikipedia.org/wiki/Application_programming_interface):
+
+> It defines the kinds of calls or requests that can be made, how to make them, the data formats that should be used, the conventions to follow, etc.
+
+It is helpful because it makes our (the developers') life easier. Because it adds a **layer of abstraction** between the client and the server, the developer **does not** have to write *low-level* code that makes the direct interactions anymore. We use the methods exposed by the API. For example, suppose we want to retrieve all employees whose age are under 30 from a database to our front-end. **Without an API**, we will write:
+
+```c#
+// pesudo-code
+SQL sql = new SQL()
+string query = "SELECT * FROM employe WHERE employee.age < 30"
+Employee[] employees = sql.query(query)
+
+foreach (Employee e in employees) {
+    // render the employee in the frontend
+}
+```
+
+However, **with an API**, we do not have to write sql to query the data anymore:
+
+```c#
+Employee[] employees = database.getEmployees(e => e.age < 30>)
+
+foreach (Employee e in employees) {
+    // render the employee in the frontend
+}
+```
+
+In the above over-simplified demonstration, you may not see the immediate advantage of using the API. However, when the business logic grows larger or our application becomes more complex, the **API allows** us to directly act without the need to write the low-level query code repeatedly.
 
 # 2. Model
 
-Before we even start to write a line of code, we need to think about what we would like to store in our database and what properties we want our API to return. This is crucial because the cost of modifying an existing database is very high. To keep it simple we will only have one table and one model. Be aware that in modern system that multiple models can exist that pull data from multiple databases.
+Before we even start to write a line of code, we need to think about what we would like to store in our database and what properties we want our API to return (i.e. **the Model**). The model is crucial because the **cost of modifying** an existing database is *very high*. To keep it simple, we will only have one table and one model. Be aware that in the modern system that multiple models can exist that pull data from various databases.
 
-Now that we have the information out of the way we can design our model. Here we are going to create a database that holds student details. Our model will have the following fields:
+Now we can design the model. Here we will create a database that holds students' details. Our model will have the following fields:
+
 - StudentId
 - First Name
 - Last Name
 - Email Address
 
-The model seems very simple but that is because we will update it later on in this tutorial.
+The model seems simple but later we will start updating it to make things more complex and fun.
 
 # 3. Azure Database
-Before we can build our model we first need a server to host our database. There are mutiple ways and technologies we could use to create a database. For the purpose of simplicity we will use Azure SQL databases to host our data. For this step you will need a Azure for Student Subscription and an account to go with it. Visit [https://azure.microsoft.com/en-us/free/students/](https://azure.microsoft.com/en-us/free/students/) to redeem your subscription. This will give you some free credits to use which is needed to host our API and Databases.
+Before we can build our model we first need a server to host our database. There are mutiple ways and technologies we could use to create a database. For simplicity we will use Azure SQL databases to host our data. For this step you will need a Azure for Student Subscription and an account to go with it. Visit [https://azure.microsoft.com/en-us/free/students/](https://azure.microsoft.com/en-us/free/students/) to redeem your subscription. This will give you some free credits to host our API and Databases.
+
 ### 3.1 Creating the database
-Navigate to https://portal.azure.com on your browser and click “Create a resource” and search for “SQL Database”.
+
+Navigate to https://portal.azure.com on your browser and click **Create a resource** and search for **SQL Database**.
+
 ![Create Resource](./img/Azure%20%281%29.png)
->Make sure the subscription is Azure for Students, 
-- Click 'Create New', to create a new resource group. (The resource group is a collection of resources that are used for a particular application or group of applications) 
+
+> Make sure the subscription is Azure for Students.
+
+- Click **Create New**, to create a new resource group. (The resource group is a collection of resources that are used for a particular application or group of applications)
+
 ![Create Resource Group](./img/Azure%20%282%29.png)
-- Give your database a name. 
+
+- Name your database.
+
 ![db name](./img/Azure%20%284%29.png)
-- Click 'Create new' which will prompt you to create a admin account for this database and the select a region that it will hosted on.
+
+- Click **Create new** which will prompt you to create a admin account for this database and the select a region that it will be hosted on.
+
 ![SQL admin](./img/Azure%20%285%29.png)
+
 - You should have something similiar to this.
+
 ![settings](./img/Azure%20%286%29.png)
-- Click 'Configure database' and navigate to the basic option (the default one is overkill and is quite expensive for our purposes) and Apply the changes
+
+- Click **Configure database** and navigate to the basic option (the default one is overkill and is quite expensive for our purposes) and apply the changes.
+
 ![config database](./img/Azure%20%287%29.png)
+
 ![config database](./img/Azure%20%288%29.png)
-> We want to change the database configuration as the default one is expensive and overkill for our purposes (Cost $641 for me to host the default monthly)
+
+> We want to change the database configuration because the default one is expensive and an overkill for our purposes. (Cost $641 for me to host the default monthly)
+
 ![config database](./img/Azure%20%289%29.png)
+
 > Way cheaper cost only $8 a month, be sure to delete the database after the phase 1 results are given out so that it doesn't eat into your credits.
 
 Once satified with the setting you can click review and create and the deployment should be underway. This might take some time.
+
 ![Create Resource](./img/Azure%20%2810%29.png)
+
 ### 3.2 Firewall settings
-When the database has finished being deployed you can click on "Go to resource" and 'Set server firewall' 
+When the database has finished being deployed you can click on "Go to resource" and 'Set server firewall'.
+
 ![Firewall](./img/Azure%20%2811%29.png)
+
 ![Firewall](./img/Azure%20%2812%29.png)
+
 Change the seeting so that 'Allow Azure service' is Yes and add the rule 0.0.0.0 and 255.255.255.255. This is giving all IP addresses access. Ideally we would want to restrict access in a production environment but for simplicity I will allow all connections.
+
 ![Allow All](./img/Azure%20%2813%29.png)
-On the left hand panel find the label Connection String and copy the string somewhere.
+
+On the left hand panel find the label **Connection String** and copy the string somewhere. (We would need this to connect to the database we created in the `.NET` project)
+
 ![Connection String](./img/Azure%20%2814%29.png)
-Copy the connection string under ADO.NET
+
+Copy the **connection string** under ADO.NET.
+
 ![Copy String](./img/Azure%20%2815%29.png)
 
 # 4. Time to Code – Model and context creations
 ### 4.1 Creating a new web API project
 Open Visual Studio 2019 -> Create a new Project -> ASP.NET Core Web Application
+
 ![Create app](./img/api%20%281%29.png)
-Give your project a name
+
+Give your project a name.
+
 ![project name](./img/api%20%282%29.png)
-Select API -> Click Create
+
+Select API -> Click **Create**
+
 ![Api](./img/api%20%283%29.png)
-We have create an empty API project which will will create our core logic of our API. At this point you can Click 'IIS Express' to run the project. The newly created API project comes with a default API WeatherForecastController.cs, It should show you the following data
+
+We have created an empty API project which will will create our core logic of our API. At this point you can Click **IIS Express** to run the project. The newly created API project comes with a default API `WeatherForecastController.cs`, It should show you the following data.
+
 ![run api](./img/api%20%284%29.png)
+
 ![output json](./img/api%20%285%29.png)
-Now that we know the project runs we can delete the WeatherForecast.cs and the WeatherForecastController.cs by right clicking and selecting delete in the 'solution explorer' on the right hand side.
+
+Now that we know the project runs we can delete the `WeatherForecast.cs` and the `WeatherForecastController.cs` by right clicking them and selecting **delete** in the **Solution Explorer** - the panel on the right-hand side of the VS editor.
+
 ![delete default](./img/api%20%287%29.png)
+
 ### 4.2 Adding Nuget Packages
 We also need to install some libraries/extensions to the project to help us create the API.
-At the top of the screen go to "Tools -> Nuget Package Manager -> Manage Nuget Package for Solution".
+At the top of the screen go to **Tools** -> **Nuget Package Manager** -> **Manage Nuget Package for Solution**.
+
 ![nuget manager](./img/api%20%288%29.png)
-Click browse and search for Microsoft.EntityFrameworkCore, add Microsoft.EntityFrameworkCore and install it. 
+
+Click browse and search for `Microsoft.EntityFrameworkCore`, add and install it. This framework is an ORM (Object-Relational Mapper) that allows developers to work with a database using `.NET` objects. More in the [Microsoft Doc](https://docs.microsoft.com/en-us/ef/core/#:~:text=Entity%20Framework%20(EF)%20Core%20is,work%20with%20a%20database%20using%20.).
+
 ![install packages](./img/api%20%289%29.png)
-Do the same with:
-- Microsoft.EntityFrameworkCore.Tools (Migration)
-- Microsoft.EntityFrameworkCore.SqlServer (database communication).
+
+Do the same to add and install:
+- `Microsoft.EntityFrameworkCore.Tools` (**Migration**)
+- `Microsoft.EntityFrameworkCore.SqlServer` (**database communication**)
 
 ### 4.3 Adding the Model
-Add a folder called "Models" to the project by right clicking the project
+Right click the `Models` folder and select **add new item**.
+
 ![model](./img/api%20%2810%29.png)
-Right click the Models folder and select add new item
+
 ![add item](./img/api%20%2811%29.png)
+
 > Give your class file a name. This class will be our model for our student data.
-Under the Student.cs class add the follow code. 
+Under the `Student.cs` class add the follow code. The `Student` class has the 4 attributes which we define earlier for the database, namely `studentId`, `firstName`, `lastName` and `emailAddress`. Notice each attribute also has a `get` and `set` method respectively, this allow us to read and update the respective values later on. `[Key]` and `[DatabaseGenerated(DatabaseGeneratedOption.Identity)]` are explained below.
 
 ```C#
     public class Student
@@ -107,22 +182,34 @@ Under the Student.cs class add the follow code.
         public string emailAddress { get; set; }
     }
 ```
+
 ![model code](./img/api%20%2812%29.png)
+
 You will see that Visual Studio complaining about an error. We can fix this by hovering over or clicking the lightbulb icon to show potential fixes. In our case we want to import the following.
-- ```using System.ComponentModel.DataAnnotations;```
-- ```using System.ComponentModel.DataAnnotations.Schema;```
+
+- `using System.ComponentModel.DataAnnotations;`
+- `using System.ComponentModel.DataAnnotations.Schema;`
+
 ![fix using snippet](./img/api%20%2813%29.png)
+
 ![fix using snippet](./img/api%20%2814%29.png)
-This imports the libraries that we added in previously. 
-> [Key] denotes the primary Id that is used to identify the row of data. This  annotation isn’t strictly needed if your variable has Id in the name.
-> [DatabaseGenerated(DatabaseGeneratedOption.Identity)] annotation tells the database that we want this variable to be autogenerated and is the primary identifier. More infomration can be found [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt)
+
+This imports the libraries that we added and installed previously.
+
+> `[Key]` denotes the primary Id that is used to identify the row of data. This  annotation isn’t strictly needed if your variable has Id in the name, because by convention, a property named Id or `<type name>`Id will be configured as the **primary key** of an entity.
+
+> `[DatabaseGenerated(DatabaseGeneratedOption.Identity)]` annotation tells the database that we want this attributed to be automatically generated when we add a `Student` to the database and it is the primary identifier. More infomration can be found [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt)
 
 We are now done with our basic model!
+
 ### 4.3 Adding the DbContext
 
-> More information on DbContext [here](https://docs.microsoft.com/en-us/dotnet/api/system.data.entity.dbcontext?view=entity-framework-6.2.0)
+**DbContext** is *the way* to incoporate EntityFramework-based data access into the application. In other words, the class that derives or is registered with DbContext is the data access layer of the application.
 
-Right click the project and create a new folder called Data. In this new folder create a new class called StudentContext, Add the following code to the file and fix all the errors using the suggestions.
+> More information on **DbContext** [here](https://docs.microsoft.com/en-us/dotnet/api/system.data.entity.dbcontext?view=entity-framework-6.2.0)
+
+Right click the project and create a new folder called `Data`. In this new folder, create a new file called `StudentContext.cs`, Add the following code to the file and fix all the errors using the suggested solutions prompted by the lightbulb.
+
 ```C#
 public class StudentContext : DbContext
     {
@@ -140,8 +227,11 @@ public class StudentContext : DbContext
         }
     }
 ```
+
 ![Context](./img/api%20%2815%29.png)
+
 ![Context](./img/api%20%2816%29.png)
+
 # 5. Time to Code – Migrations
 Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier. 
 ```JSON
