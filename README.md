@@ -213,16 +213,28 @@ Right click the project and create a new folder called `Data`. In this new folde
 ```C#
 public class StudentContext : DbContext
     {
+        // an empty constructor
         public StudentContext() {}
+
+        // base(options) calls the base class's contructor,
+        // in this case, our base class is DbContext
         public StudentContext(DbContextOptions<StudentContext> options) : base(options) {}
+
+        // Use DbSet<Student> to query or read and 
+        // write information about A Student
         public DbSet<Student> Student { get; set; }
         public static System.Collections.Specialized.NameValueCollection AppSettings { get; }
+
+        // configure the database to be used by this context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
            .AddJsonFile("appsettings.json")
            .Build();
+
+           // schoolSIMSConnection is the name of the key that 
+           // contains the has the connection string as the value 
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("schoolSIMSConnection"));
         }
     }
@@ -233,49 +245,68 @@ public class StudentContext : DbContext
 ![Context](./img/api%20%2816%29.png)
 
 # 5. Time to Code – Migrations
-Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier. 
+Now that we have set up our model and the context, we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open `appsettings.json` and add the following. (where **CONNECTIONSTRING** is the string you copied earlier when we created the database in Azure Portal)
+
 ```JSON
 "AllowedHosts": "*",
 "ConnectionStrings": {
     "schoolSIMSConnection": "CONNECTIONSTRING"
   }
 ```
-![conn string add](./img/api%20%2817%29.png)
-> Make sure you replace {your_password} with your admin password in the connection string you copied
 
-At the bottom of the screen click package console manager, run the following command ```Add-Migration InitialCreate```.  Running this will automatically create files needed to update the database. A folder called `Migration` will be create which will have a record or all migrations we have made. This is basically git but for our model. 
+![conn string add](./img/api%20%2817%29.png)
+
+> Make sure you replace `{your_password}` with your admin password in the connection string you copied
+
+At the bottom of the screen click package console manager, run the following command `Add-Migration InitialCreate`. The command creates files needed to update the database. A folder called `Migration` will be created, it has a record or all migrations we have made. In other words, when we change the schema of the database, e.g. if we rename or drop a column, without migration, all data is lost upon update of the schema, but with migration, not only it updates the schema of the database but it also preserves the existing data. Essentially it is git for the model. (More info on [Migration](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli#:~:text=The%20migrations%20feature%20in%20EF,Create%20a%20migration.) can be found here)
+
 ![add-migrations](./img/api%20%2818%29.png)
+
 ![add-migrations](./img/api%20%2819%29.png)
+
 We haven’t updated the remote database yet but running the command `Update-Database` will create the model on our database.
 
 Go back to Azure and find your database and select the `Query Editor` on the left hand panel, log in and expand the Tables folder. 
+
 ![table updated](./img/api%20%2820%29.png)
+
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
 
 # 5. Time to Code – API Controllers
-> The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
-Open Startup.cs and add the follow code to in ConfigureServices, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json`
+> The **controller** is where all our api’s are created. To create basic API we will use **scaffolding** which automatically creates some API methods.
+
+Open `Startup.cs` and add the following code to the `ConfigureServices` method, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json` (i.e. in `appsettings.json`, use `YOUR_CONNECTION_STRING_NAME` found in `"ConnectionStrings": { "YOUR_CONNECTION_STRING_NAME": "...." }`)
+
  ```C# 
-	var connection = Configuration.GetConnectionString("schoolSIMSConnection");
-	services.AddDbContext<StudentContext>(options => options.UseSqlServer(connection));}
+var connection = Configuration.GetConnectionString("schoolSIMSConnection");
+services.AddDbContext<StudentContext>(options => options.UseSqlServer(connection));}
 ```
->What we are doing is letting our program know that we want to use this context we have created
 
-Right click the `Controllers` folder and select Add->New Scaffold Item-> Select API Controller with actions, using Entity Framework. Here select your model and context you create previously.
+> This adds the dbContext to our program.
+
+Right click the `Controllers` folder and select **Add** -> **New Scaffold Item** -> **Select API Controller with actions, using Entity Framework**. Here select your model and context you create previously.
+
 ![scaffolding nav](./img/api%20%2821%29.png)
-![Api controller with](./img/api%20%2822%29.png)
-![model and context](./img/api%20%2823%29.png)
-![results](./img/api%20%2824%29.png)
->It should generate the API for you. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students. 
 
-This isn’t very visual pleasing to work with so we will add some UI in the next step.
+![Api controller with](./img/api%20%2822%29.png)
+
+![model and context](./img/api%20%2823%29.png)
+
+![results](./img/api%20%2824%29.png)
+
+> This generates the API methods. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students.
+
+This isn’t very visual pleasing to work with so we will use Swagger UI to visualize and interact with the API's in the next step.
 
 # 5. Time to Code – Swagger.
-### 5.1 Setting up Swagger
-Install the nuget package Swashbuckle.AspNetCore
 
-Add the following code to Startup.cs in the ConfigureServices and fix the errors that pop up
+### 5.1 Setting up Swagger
+
+Install the nuget package **Swashbuckle.AspNetCore**
+
+Add the following code to `Startup.cs` in the `ConfigureServices` and fix the errors that pop up using 
+
 ```C#
 services.AddSwaggerGen(c =>
 {
