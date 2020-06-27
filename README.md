@@ -247,8 +247,8 @@ public class StudentContext : DbContext
            .AddJsonFile("appsettings.json")
            .Build();
 
-           // schoolSIMSConnection is the name of the key that 
-           // contains the has the connection string as the value 
+           // schoolSIMSConnection is the name of the key that
+           // contains the has the connection string as the value
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("schoolSIMSConnection"));
         }
     }
