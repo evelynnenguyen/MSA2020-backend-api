@@ -227,16 +227,28 @@ Right click the project and create a new folder called `Data`. In this new folde
 ```C#
 public class StudentContext : DbContext
     {
+        // an empty constructor
         public StudentContext() {}
+
+        // base(options) calls the base class's contructor,
+        // in this case, our base class is DbContext
         public StudentContext(DbContextOptions<StudentContext> options) : base(options) {}
+
+        // Use DbSet<Student> to query or read and 
+        // write information about A Student
         public DbSet<Student> Student { get; set; }
         public static System.Collections.Specialized.NameValueCollection AppSettings { get; }
+
+        // configure the database to be used by this context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
            .AddJsonFile("appsettings.json")
            .Build();
+
+           // schoolSIMSConnection is the name of the key that 
+           // contains the has the connection string as the value 
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("schoolSIMSConnection"));
         }
     }
@@ -246,57 +258,79 @@ public class StudentContext : DbContext
 
 ![Context](./img/api%20%2816%29.png)
 
-# 5. Time to Code – Migrations <a name="migrations"></a>
-Now that we have set up our model and the context we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open appsettings.json and add the following where CONNECTIONSTRING is the string you copied earlier.
+# 5. Time to Code – Migrations
+Now that we have set up our model and the context, we can begin to update the database with our model. Code first programming will allow us to mirror our model in our database. First remember we had the connection previously when we created our database. Open `appsettings.json` and add the following. (where **CONNECTIONSTRING** is the string you copied earlier when we created the database in Azure Portal)
+
 ```JSON
 "AllowedHosts": "*",
 "ConnectionStrings": {
     "schoolSIMSConnection": "CONNECTIONSTRING"
   }
 ```
-![conn string add](./img/api%20%2817%29.png)
-> Make sure you replace {your_password} with your admin password in the connection string you copied
 
-At the bottom of the screen click package console manager, run the following command ```Add-Migration InitialCreate```.  Running this will automatically create files needed to update the database. A folder called `Migration` will be create which will have a record or all migrations we have made. This is basically git but for our model.
+![conn string add](./img/api%20%2817%29.png)
+
+> Make sure you replace `{your_password}` with your admin password in the connection string you copied
+
+At the bottom of the screen click package console manager, run the following command `Add-Migration InitialCreate`. The command creates files needed to update the database. A folder called `Migration` will be created, it has a record or all migrations we have made. In other words, when we change the schema of the database, e.g. if we rename or drop a column, without migration, all data is lost upon update of the schema, but with migration, not only it updates the schema of the database but it also preserves the existing data. Essentially it is git for the model. (More info on [Migration](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli#:~:text=The%20migrations%20feature%20in%20EF,Create%20a%20migration.) can be found here)
+
 ![add-migrations](./img/api%20%2818%29.png)
+
 ![add-migrations](./img/api%20%2819%29.png)
+
 We haven’t updated the remote database yet but running the command `Update-Database` will create the model on our database.
 
-Go back to Azure and find your database and select the `Query Editor` on the left hand panel, log in and expand the Tables folder.
+Go back to Azure and find your database and select the `Query Editor` on the left hand panel, log in and expand the Tables folder. 
+
 ![table updated](./img/api%20%2820%29.png)
+
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
 
 # 6. Time to Code – API Controllers <a name="api-controllers"></a>
 > The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
-Open Startup.cs and add the follow code to in ConfigureServices, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json`
- ```C#
-	var connection = Configuration.GetConnectionString("schoolSIMSConnection");
-	services.AddDbContext<StudentContext>(options => options.UseSqlServer(connection));}
+> The **controller** is where all our api’s are created. To create basic API we will use **scaffolding** which automatically creates some API methods.
+
+Open `Startup.cs` and add the following code to the `ConfigureServices` method, replacing the string `schoolSIMSConnection` with the connection string name you have in `appsettings.json` (i.e. in `appsettings.json`, use `YOUR_CONNECTION_STRING_NAME` found in `"ConnectionStrings": { "YOUR_CONNECTION_STRING_NAME": "...." }`)
+
+ ```C# 
+var connection = Configuration.GetConnectionString("schoolSIMSConnection");
+services.AddDbContext<StudentContext>(options => options.UseSqlServer(connection));}
 ```
->What we are doing is letting our program know that we want to use this context we have created
 
-Right click the `Controllers` folder and select Add->New Scaffold Item-> Select API Controller with actions, using Entity Framework. Here select your model and context you create previously.
+> This adds the dbContext to our program.
+
+Right click the `Controllers` folder and select **Add** -> **New Scaffold Item** -> **Select API Controller with actions, using Entity Framework**. Here select your model and context you create previously.
+
 ![scaffolding nav](./img/api%20%2821%29.png)
-![Api controller with](./img/api%20%2822%29.png)
-![model and context](./img/api%20%2823%29.png)
-![results](./img/api%20%2824%29.png)
->It should generate the API for you. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students.
 
-This isn’t very visual pleasing to work with so we will add some UI in the next step.
+![Api controller with](./img/api%20%2822%29.png)
+
+![model and context](./img/api%20%2823%29.png)
+
+![results](./img/api%20%2824%29.png)
+
+> This generates the API methods. This is very basic api but it will give us the some boiler plate code to work with. You can run then program again but go to one of the api/Students.
+
+This isn’t very visual pleasing to work with so we will use Swagger UI to visualize and interact with the API's in the next step.
 
 # 7. Time to Code – Swagger. <a name="swagger"></a>
 ### 7.1 Setting up Swagger
 Install the nuget package Swashbuckle.AspNetCore
 
-Add the following code to Startup.cs in the ConfigureServices and fix the errors that pop up
+Install the nuget package **Swashbuckle.AspNetCore**
+
+Add the following code to `ConfigureServices` in `Startup.cs` and fix the errors using the suggestions from the lightbulb in the VS editor.
+
 ```C#
 services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "StudentSIMS", Version = "v1" });
 });
 ```
-Add the following to Configure
+
+Add the following to `Configure`:
+
 ```C#
 app.UseSwagger();
 // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -307,26 +341,36 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty; // launch swagger from root
 });
 ```
-In `Properties/launchsetting.json` edit the launchUrl to be `“”`
 
-Run the program and you should now be greeted with a nice Swagger UI
+In `Properties/launchsetting.json` edit the launchUrl to be `""`.
+
+Run the program and go to the prompted localhost url in the console, then you should be greeted with a nice Swagger UI.
+
 ![swagger ui](./img/api%20%2825%29.png)
+
 ### 7.2 Testing our API
 Time to see if our API is working.
 
-Click on `POST api/Students` and click `Try it out`
-![post](./img/api%20%2828%29.png)
->POST is an HTTP method used to send data to a server to create a new record
+Click on **POST api/Students** and click **Try it out**
 
-Edit the string so that it has a first and last name and email are filled out. It doesn't matter what StudentId is when we post because it will be ignored and autogenerated for us.
+![post](./img/api%20%2828%29.png)
+
+> POST is a HTTP method used to send data to a server to create a new record.
+
+Edit the fields to fill out the first name, last name and email. It doesn't matter what StudentId is because it will be autogenerated for us. (Recall the primary key `studentId` has an attribute `[DatabaseGenerated(DatabaseGeneratedOption.Identity)]` defined in our schema in `Student.cs`)
+
 ![edit post](./img/api%20%2826%29.png)
-Click `Execute` if the response is 201 then we have successfully added some data to our database. See [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) for common HTTP response codes
+
+Click **Execute**, if the response is `201` then we have successfully added some data to our database. See [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) for common HTTP response codes.
+
 ![response](./img/api%20%2827%29.png)
-We can check if our data was added in our database by this executing our `GET api/students` if it returns this then we know our API is fully functional.
+
+We can check if our data was added in our database by this executing **GET api/students**, the API is fully functional if it responds with a 200 success code as shown in the image below.
+
 ![get](./img/api%20%2829%29.png)
 
 # 8. Time to Code – Updating our model <a name="update-model"></a>
-If your model needs to change we can simply add it to our existing model. I will add a timestamp and phone and middle name. I will also make it a so that the first and lastname are required fields and firstname has a max length allowable. (Click [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt) to see more data annotations you can apply to the model)
+If your model needs to change, we simply update the existing model. We will add a timestamp, a phone number and a middle name. We will also make the first and last name the required fields, and impose a max length on the first name field. (Click [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt) to see more data annotations you can apply to the model)
 ```C#
 public class Student
     {
@@ -344,10 +388,12 @@ public class Student
         public DateTime timeCreated { get; set; }
     }
 ```
-![migration update](./img/api%20%2830%29.png)
-Go to package manger console and run ```Add-Migration UpdatedStudentModel``` and ```Update-Database```.
 
-If you make a mistake with the model you can call roll back the migration by calling Update-Database with the name of the previous migration. Take a look [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=vs#remove-a-migration)  and [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli) for more Migration functionality
+![migration update](./img/api%20%2830%29.png)
+
+Go to package manger console and run `Add-Migration UpdatedStudentModel` and `Update-Database`.
+
+If you make a mistake with the model, you can roll back to the previous version by calling `Update-Database` with the name of the previous migration. Take a look [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=vs#remove-a-migration) and [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli) for more Migration functionality.
 
 # 9. Deploy .NET Core Web API to Azure <a name="deployment"></a>
 Now we will deploy our finished .NET CORE Web API to Azure.
@@ -440,22 +486,26 @@ Hosting APIs on Azure will allow you to call the APIs anytime on any devices. Fo
 # 10. Assignments for API + Database module <a name="assignments"></a>
 
 ## 10.1 Submission
-Students will need to submit a link to GitHub repository. README.md file will contain the following contents:
+
+Students will need to submit a link to GitHub repository. `README.md` will contain the following contents, refer to 7.2 or [`Assignment.md`](Assignment.md) for more details (they contain the same information):
+
 - All the screenshots and explanations/notes
 - URLs of your APIs that have been hosted on Azure
 
 ## 10.2 Project Guidelines
-- Create a code-first API server with Azure SQL Database
+
+- Create a **code-first** API server with Azure SQL Database
   - Database:
-    - Create another table named "Address" with attributes: StudentId, Street Number, Street, Suburb, City, Postcode and Country. The Student table would have one-to-many relationship with this table. Please assign appropriate datatype for each of the attributes.
-    - Show SQL database through the Query editor (screenshots) for both tables with rows of example instances
+    - Create another table named **Address** with attributes: `StudentId`, `Street Number`, `Street`, `Suburb`, `City`, `Postcode` and `Country`. The **Student** table would have a one-to-many relationship with this table. Please assign appropriate datatype (i.e. `string`, `int` etc.) for each of the attributes.
+    - Show SQL database through the Query editor (**screenshots**) for both tables with rows of example instances
+
   - API manipulate the created Azure Database using Code-First migration:
-    - Create basic CRUD requests for Student and Address
-    - Create an API that add new address for a student using his/her StudentId.
-    - Create an API that change the address of a student using his/her StudentId.
-    - Screenshot of Swagger UI for each of the CRUD requests with header, body, and successful response status
-- MS Learn
-Student will need to finish 1 compulsory and 1 optional modules and submit the screenshots of completed modules:
+    - Create basic CRUD requests for the **Student** and **Address** table.
+    - Create an API method that **adds** new address for a student using his/her StudentId.
+    - Create an API method that **changes** the address of a student using his/her StudentId.
+    - **Screenshot** of Swagger UI for each of the CRUD requests with header, body, and successful response status
+
+- MS Learn Student will need to finish 1 compulsory and 1 optional module and submit the screenshots (showing the green ticks after the completion of the module, can be found in the MS learn profile dashboard):
   - Compulsory: [Create a web API with ASP.NET Core](https://docs.microsoft.com/en-us/learn/modules/build-web-api-net-core/?fbclid=IwAR0YijdrKtl3UUkQLVTUw3i6RTJbkxLte7RbZhD2aBPYvZva-Pp-_WRYbJM)
   - Optional: Choose 1 out of the following two modules:
     - [Provision an Azure SQL database to store application data](https://docs.microsoft.com/en-us/learn/modules/provision-azure-sql-db/?fbclid=IwAR0k7zN0rgLgISyDoSZP7l3Mm1nEUjUY9nJJS0TnVEPjdn78xzWThfJesLk)
