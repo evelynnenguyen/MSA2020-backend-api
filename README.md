@@ -1,9 +1,18 @@
-# Assignments
-The requirements for submission can be found [here](Assignment.md).
+# Table of contents
+1. [API and Databases](#api-and-databases)
+2. [Model](#model)
+3. [Azure Database](#azure-database)
+4. [Time to Code - Model and Context Creation](#model-and-context-creations)
+5. [Time to Code - Migrations](#migrations)
+6. [Time to Code - API Controllers](#api-controllers)
+7. [Time to Code - Swagger](#swagger)
+8. [Time to Code - Updating our model](#update-model)
+9. [Deploy .NET Core Web API to Azure](#deployment)
+10. [Assignments](#assignments)
 
-# API and Databases
+# API and Databases <a name="api-and-databases"></a>
 
-API forms the layer between our front-end and database. The API handles the logic when a request is recieved by or sent from the front-end.
+API forms the layer between our front-end and database. The API handles the logic when a request is received by or sent from the front-end.
 
 ## 1. before you Start
 Here are the required things to get/install for the project:
@@ -51,7 +60,9 @@ foreach (Employee e in employees) {
 
 In the above over-simplified demonstration, you may not see the immediate advantage of using the API. However, when the business logic grows larger or our application becomes more complex, the **API allows** us to directly act without the need to write the low-level query code repeatedly.
 
-# 2. Model
+There is a small documentations on interaction between Database and API [here](DB-API.md). Have a look at it if you are still not sure how they work together.
+
+# 2. Model <a name="model"></a>
 
 Before we even start to write a line of code, we need to think about what we would like to store in our database and what properties we want our API to return (i.e. **the Model**). The model is crucial because the **cost of modifying** an existing database is *very high*. To keep it simple, we will only have one table and one model. Be aware that in the modern system that multiple models can exist that pull data from various databases.
 
@@ -64,7 +75,7 @@ Now we can design the model. Here we will create a database that holds students'
 
 The model seems simple but later we will start updating it to make things more complex and fun.
 
-# 3. Azure Database
+# 3. Azure Database <a name="azure-database"></a>
 Before we can build our model we first need a server to host our database. There are mutiple ways and technologies we could use to create a database. For simplicity we will use Azure SQL databases to host our data. For this step you will need a Azure for Student Subscription and an account to go with it. Visit [https://azure.microsoft.com/en-us/free/students/](https://azure.microsoft.com/en-us/free/students/) to redeem your subscription. This will give you some free credits to host our API and Databases.
 
 ### 3.1 Creating the database
@@ -126,7 +137,7 @@ Copy the **connection string** under ADO.NET.
 
 ![Copy String](./img/Azure%20%2815%29.png)
 
-# 4. Time to Code – Model and context creations
+# 4. Time to Code – Model and context creations <a name="model-and-context-creations"></a>
 ### 4.1 Creating a new web API project
 Open Visual Studio 2019 -> Create a new Project -> ASP.NET Core Web Application
 
@@ -205,7 +216,7 @@ This imports the libraries that we added and installed previously.
 
 We are now done with our basic model!
 
-### 4.3 Adding the DbContext
+### 4.4 Adding the DbContext
 
 **DbContext** is *the way* to incoporate EntityFramework-based data access into the application. In other words, the class that derives or is registered with DbContext is the data access layer of the application.
 
@@ -275,7 +286,8 @@ Go back to Azure and find your database and select the `Query Editor` on the lef
 
 You can see two tables. one is a record of the migrations we have made and the other is the table for your model. You have successfully updated the database using code first approach. If you want to know how to do database first take a look at the last years API and Databases [here](https://github.com/NZMSA/2019-Phase-1/tree/master/Databases%20&%20API).
 
-# 5. Time to Code – API Controllers
+# 6. Time to Code – API Controllers <a name="api-controllers"></a>
+> The controller is where all our api’s are created. To create basic API we will use scaffolding which will give us some API that is automatically created.
 
 > The **controller** is where all our api’s are created. To create basic API we will use **scaffolding** which automatically creates some API methods.
 
@@ -302,9 +314,9 @@ Right click the `Controllers` folder and select **Add** -> **New Scaffold Item**
 
 This isn’t very visual pleasing to work with so we will use Swagger UI to visualize and interact with the API's in the next step.
 
-# 5. Time to Code – Swagger.
-
-### 5.1 Setting up Swagger
+# 7. Time to Code – Swagger. <a name="swagger"></a>
+### 7.1 Setting up Swagger
+Install the nuget package Swashbuckle.AspNetCore
 
 Install the nuget package **Swashbuckle.AspNetCore**
 
@@ -336,7 +348,8 @@ Run the program and go to the prompted localhost url in the console, then you sh
 
 ![swagger ui](./img/api%20%2825%29.png)
 
-### 5.2 Testing our API
+### 7.2 Testing our API
+Time to see if our API is working.
 
 Click on **POST api/Students** and click **Try it out**
 
@@ -356,10 +369,8 @@ We can check if our data was added in our database by this executing **GET api/s
 
 ![get](./img/api%20%2829%29.png)
 
-# 6. Time to Code – Updating our model
-
+# 8. Time to Code – Updating our model <a name="update-model"></a>
 If your model needs to change, we simply update the existing model. We will add a timestamp, a phone number and a middle name. We will also make the first and last name the required fields, and impose a max length on the first name field. (Click [here](https://docs.microsoft.com/en-us/ef/core/modeling/entity-properties?tabs=data-annotations,without-nrt) to see more data annotations you can apply to the model)
-
 ```C#
 public class Student
     {
@@ -384,16 +395,104 @@ Go to package manger console and run `Add-Migration UpdatedStudentModel` and `Up
 
 If you make a mistake with the model, you can roll back to the previous version by calling `Update-Database` with the name of the previous migration. Take a look [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=vs#remove-a-migration) and [here](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli) for more Migration functionality.
 
-# 7. Assignments for API + Database module
+# 9. Deploy .NET Core Web API to Azure <a name="deployment"></a>
+Now we will deploy our finished .NET CORE Web API to Azure.
 
-## 7.1 Submission
+## 9.1 Development Environment
+1. Visual Studio Community 2019, version 16.6.2
+2. .NET CORE 3.1
+3. Azure Student Subscription
+
+## 9.2 Configure CORS
+Firstly, we will configure the application to enable CORS policy so that we can host it on Azure with Swagger UI.
+
+In Visual Studio, go to your `Startup.cs` file and update the Configure and ConfigureServices methods as below:
+``` csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {      
+       app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()
+            );
+    }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddCors();
+    }
+```
+
+Your two methods then will be look like:
+
+![Configure CORS](./img/configure-cors.PNG)
+
+## 9.3 Deployment
+In order to deploy our .NET Core Application to Azure, we need an Azure account with subscription. If you are a student, you can register a student subscription with Microsoft Azure.
+Once you are ready with your Azure account, login into [Azure](http://portal.azure.com/) and search for "App Services"
+
+From "App Services", we choose the "Add" to create a new App Service.
+
+![Add App Services](./img/add-app-services.PNG)
+
+Then we need to fill out the following fields:
+
+![Web App Form](./img/web-app-form.PNG)
+
+- **Subscription**: Choose "Azure for Students" if you are a student and have registered for the student subscription with Azure
+- **Resource Group**: is a container that holds related resources for an Azure solution. If you don’t have existing resource group, you can click “Create new” to create one.
+- **Name**: this would be your app’s name.
+- **Publish**: I will choose the code option.
+- **Runtime Stack**: select the correct runtime stack. For example, in this tutorial, we are using .NET Core 3.1, so I will select .NET Core 3.1.
+- **Region**: select the correct region.
+- **Plan**: leave as default
+- **Sku and size**: Here I choose Free F1 option.
+
+Then choose `Review and Create`, check for your configurations, and select `Create`.
+
+Azure will then deploy your empty app to Azure server.
+
+After we have configured the web service on Azure, we are now move to deploy our .NET Core Web API code to Azure.
+
+Now go back to your Visual Studio, right click your API project and choose `Publish...`
+
+![Choose Publish](./img/choose-publish.png)
+
+Then choose `Azure` as our `Target` to publish
+
+![Where to Publish](./img/where-publish.PNG)
+
+For `Specific target`, we choose `Azure App Service(Windows)`
+
+![Windows Publish](./img/windows-publish.PNG)
+
+For `App Service`, we will choose the existing Azure App Service that we have just created. Make sure that you are logged in the correct account from which you created the App Service. Select the correct `Subscription` and the `App Service`
+
+![Existing Publish](./img/existing-publish.PNG)
+
+And then select `Finish`
+
+In the Publish window, check to ensure that all configurations are correct. Then select `Publish` to publish your code to the existing Azure App Service.
+
+![Publish Code](./img/publish-code.PNG)
+
+When it is published successfully, it will automatically open up the site, else you can click the `Site URL` to open it in browser and test if your APIs work well.
+
+![Successful Deployed](./img/successful-deployed.PNG)
+
+Hosting APIs on Azure will allow you to call the APIs anytime on any devices. For example, developers use YouTube or Google APIs to build their applications.
+
+# 10. Assignments for API + Database module <a name="assignments"></a>
+
+## 10.1 Submission
 
 Students will need to submit a link to GitHub repository. `README.md` will contain the following contents, refer to 7.2 or [`Assignment.md`](Assignment.md) for more details (they contain the same information):
 
 - All the screenshots and explanations/notes
 - URLs of your APIs that have been hosted on Azure
 
-## 7.2 Project Guidelines
+## 10.2 Project Guidelines
 
 - Create a **code-first** API server with Azure SQL Database
   - Database:
